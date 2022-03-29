@@ -7,36 +7,33 @@ public class Parque implements IParque {
 
 	// Que hay que hacer
 	// Salidas
-	// Aforo maximo
+	// Aforo maximo hecho
 	// aforo minimo = 0
-	// Pre y post condiciones {waitm notify
-	// mas invariantes
+	// Pre y post condiciones {wait, notify} casi hecho
+	// mas invariantes hecho
 
 	private int aforoMax;
 	private int aforoMin;
-	// TODO hecho?
 	private int contadorPersonasTotales;
 	private Hashtable<String, Integer> contadoresPersonasPuerta;
 
 	public Parque() { // TODO
-		this.contadorPersonasTotales = 0;
-		this.contadoresPersonasPuerta = new Hashtable<String, Integer>();
+		contadorPersonasTotales = 0;
+		contadoresPersonasPuerta = new Hashtable<String, Integer>();
 		this.aforoMax = 50;
 		this.aforoMin = 0;
-		// TODO hecho?
 	}
 
 	@Override
-	public synchronized void entrarAlParque(String puerta) { // TODO
+	public synchronized void entrarAlParque(String puerta) {
 
 		// Si no hay entradas por esa puerta, inicializamos
 		if (contadoresPersonasPuerta.get(puerta) == null) {
 			contadoresPersonasPuerta.put(puerta, 0);
 		}
 
-		// TODO
+		comprobarAntesDeEntrar(puerta);
 
-		comprobarAntesDeEntrar();
 		// Aumentamos el contador total y el individual
 		contadorPersonasTotales++;
 		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta) + 1);
@@ -44,6 +41,7 @@ public class Parque implements IParque {
 		// Imprimimos el estado del parque
 		imprimirInfo(puerta, "Entrada");
 
+		// TODO hecho
 		checkInvariante();
 
 		notifyAll();
@@ -51,27 +49,26 @@ public class Parque implements IParque {
 	}
 
 	//
-	// TODO Método salirDelParque similar a entrar al parque
+	// M�todo salirDelParque similar a entrar al parque
 	//
-	public synchronized void salirDelParque(String puerta) { // TODO
+	public synchronized void salirDelParque(String puerta) {
 
 		// Si no hay entradas por esa puerta, inicializamos
 		if (contadoresPersonasPuerta.get(puerta) == null) {
 			contadoresPersonasPuerta.put(puerta, 0);
 		}
 
-		// TODO
 		comprobarAntesDeSalir();
 
 		// Aumentamos el contador total y el individual
-		contadorPersonasTotales++;
-		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta) + 1);
+		contadorPersonasTotales--;
+		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta) - 1);
 
 		// Imprimimos el estado del parque
-		imprimirInfo(puerta, "Entrada");
+		imprimirInfo(puerta, "Salida");
 
 		checkInvariante();
-		
+
 		notifyAll();
 
 	}
@@ -100,34 +97,31 @@ public class Parque implements IParque {
 	protected void checkInvariante() {
 		assert sumarContadoresPuerta() == contadorPersonasTotales
 				: "INV: La suma de contadores de las puertas debe ser igual al valor del contador del parte";
-		assert contadorPersonasTotales <= this.aforoMax : "Hay 50 personas, el aforo esta completo";
-		assert contadorPersonasTotales >= this.aforoMin : "Hay algun problema, ¡no puede haber unaforo negativo!";
 
+		assert contadorPersonasTotales <= aforoMax : "Hay 50 personas, el aforo esta completo";
+		assert contadorPersonasTotales >= aforoMin : "Hay algun problema, �no puede haber unaforo negativo!";
 	}
 
-	protected void comprobarAntesDeEntrar() { // TODO
-		// precondiciones
-		// TODO
-		//
+	protected synchronized void comprobarAntesDeEntrar(String puerta) { // TODO
 		while (contadorPersonasTotales == aforoMax) {
 			try {
 				wait();
+				System.out.println(" esperando por puerta " + puerta);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				System.out.println(" TEST AFORO MAXIMO ");
 			}
+
 		}
 	}
 
-	protected void comprobarAntesDeSalir() { // TODO
-		//
-		// TODO
-		//
+	protected synchronized void comprobarAntesDeSalir() { // TODO
 		while (contadorPersonasTotales == aforoMin) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				System.out.println(" TEST AFORO MINIMO ");
 			}
+
 		}
 	}
 
