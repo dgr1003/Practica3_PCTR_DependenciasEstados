@@ -12,7 +12,10 @@ public class Parque implements IParque{
 	// Pre y post condiciones {waitm notify
 	// mas invariantes
 	
-	// TODO 
+	
+	private int aforoMax;
+	private int aforoMin;
+	// TODO hecho?
 	private int contadorPersonasTotales;
 	private Hashtable<String, Integer> contadoresPersonasPuerta;
 	
@@ -20,7 +23,9 @@ public class Parque implements IParque{
 	public Parque() {	// TODO
 		contadorPersonasTotales = 0;
 		contadoresPersonasPuerta = new Hashtable<String, Integer>();
-		// TODO
+		aforoMax = 50;
+		aforoMin = 0;
+		//TODO hecho?
 	}
 
 
