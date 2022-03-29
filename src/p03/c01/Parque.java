@@ -5,7 +5,13 @@ import java.util.Hashtable;
 
 public class Parque implements IParque{
 
-
+	// Que hay que hacer
+	// Salidas
+	// Aforo maximo
+	// aforo minimo = 0
+	// Pre y post condiciones {waitm notify
+	// mas invariantes
+	
 	// TODO 
 	private int contadorPersonasTotales;
 	private Hashtable<String, Integer> contadoresPersonasPuerta;
@@ -44,8 +50,31 @@ public class Parque implements IParque{
 	}
 	
 	// 
-	// TODO Método salirDelParque
+	// TODO Método salirDelParque similar a entrar al parque
 	//
+	public void salirDelParque(String puerta){		// TODO
+		
+		// Si no hay entradas por esa puerta, inicializamos
+		if (contadoresPersonasPuerta.get(puerta) == null){
+			contadoresPersonasPuerta.put(puerta, 0);
+		}
+		
+		// TODO
+				
+		
+		// Aumentamos el contador total y el individual
+		contadorPersonasTotales++;		
+		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta)+1);
+		
+		// Imprimimos el estado del parque
+		imprimirInfo(puerta, "Entrada");
+		
+		// TODO
+		
+		
+		// TODO
+		
+	}
 	
 	
 	private void imprimirInfo (String puerta, String movimiento){
@@ -70,7 +99,7 @@ public class Parque implements IParque{
 	
 	protected void checkInvariante() {
 		assert sumarContadoresPuerta() == contadorPersonasTotales : "INV: La suma de contadores de las puertas debe ser igual al valor del contador del parte";
-		// TODO 
+		// TODO asserts
 		// TODO
 		
 		
@@ -78,7 +107,7 @@ public class Parque implements IParque{
 	}
 
 	protected void comprobarAntesDeEntrar(){	// TODO
-		//
+		// precondiciones
 		// TODO
 		//
 	}
